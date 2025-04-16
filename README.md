@@ -3,7 +3,7 @@ MicroRDK module for the [TCS3200 Color Sensor](https://www.amazon.com/TCS230-TCS
 To use:
 
 1. Follow the wiring tutorial [here](https://www.electronicwings.com/esp32/tcs3200-color-sensor-interfacing-with-esp32) to connect the sensor to your ESP32.
-2. Build custom MicroRDK firmware that includes this module. Sample Cargo.toml for such a project:
+2. [Build custom MicroRDK firmware](https://docs.viam.com/operate/get-started/other-hardware/micro-module/#build-custom-firmware) that includes this module. Sample Cargo.toml for such a project:
 
 ```
 [package]

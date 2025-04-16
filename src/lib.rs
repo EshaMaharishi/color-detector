@@ -33,20 +33,20 @@ struct ImpulseCounter {
 }
 
 pub fn register_models(registry: &mut ComponentRegistry) -> Result<(), RegistryError> {
-    registry.register_sensor("my_sensor", &MySensor::from_config)
+    registry.register_sensor("my_sensor", &TCS3200ColorSensor::from_config)
 }
 
-unsafe impl Send for MySensor {}
+unsafe impl Send for TCS3200ColorSensor {}
 
 #[derive(DoCommand)]
-pub struct MySensor {
+pub struct TCS3200ColorSensor {
     board_handle: BoardType,
     impulse_counter: Arc<ImpulseCounter>,
     interrupt_notification: Notification,
     interrupt_pin: RefCell<PinDriver<'static, AnyIOPin, Input>>
 }
 
-impl MySensor {
+impl TCS3200ColorSensor {
     pub fn from_config(cfg: ConfigType, deps: Vec<Dependency>) -> Result<SensorType,SensorError> {
 
         init_isr_alloc_flags(micro_rdk::esp32::esp_idf_svc::hal::interrupt::InterruptType::Iram.into());
@@ -104,7 +104,7 @@ impl MySensor {
 }
 
 /*
-impl Drop for MySensor {
+impl Drop for TCS3200ColorSensor {
     fn drop(&mut self) {
         let pin = self.interrupt_pin.borrow_mut().pin();
         if let Err(error) = unsafe { esp!(gpio_isr_handler_remove(pin)) } {
@@ -118,9 +118,9 @@ impl Drop for MySensor {
 }
 */
 
-impl Sensor for MySensor {}
+impl Sensor for TCS3200ColorSensor {}
 
-impl SensorT<f64> for MySensor {
+impl SensorT<f64> for TCS3200ColorSensor {
     fn get_readings(&self) ->  Result<TypedReadingsResult<f64>, SensorError> {
         log::info!("my_sensor GetReadings called");
         let mut map = HashMap::new();
@@ -212,7 +212,7 @@ impl SensorT<f64> for MySensor {
     }
 }
 
-impl Readings for MySensor {
+impl Readings for TCS3200ColorSensor {
     fn get_generic_readings(&mut self) -> Result<GenericReadingsResult, SensorError> {
         Ok(self
             .get_readings()?
@@ -224,7 +224,7 @@ impl Readings for MySensor {
     }
 }
 
-impl Status for MySensor {
+impl Status for TCS3200ColorSensor {
     fn get_status(&self) -> Result<Option<micro_rdk::google::protobuf::Struct>, StatusError> {
         Ok(Some(micro_rdk::google::protobuf::Struct {
             fields: HashMap::new(),

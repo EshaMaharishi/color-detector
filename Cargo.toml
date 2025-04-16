@@ -1,5 +1,5 @@
 [package]
-name = "esha-test-module"
+name = "color-detector"
 version = "0.0.1"
 edition = "2021"
 authors = ["esha.maharishi <esha.maharishi@viam.com>"]
